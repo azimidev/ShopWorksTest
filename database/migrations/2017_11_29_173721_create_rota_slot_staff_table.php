@@ -26,7 +26,7 @@ class CreateRotaSlotStaffTable extends Migration
 			$table->unsignedInteger('roletypeid')->nullable();
 			$table->unsignedInteger('freeminutes')->nullable();
 			$table->unsignedSmallInteger('seniorcashierminutes')->nullable();
-			$table->string('splitshifttimes', 11);
+			$table->string('splitshifttimes', 11)->nullable();
 			$table->timestamps();
 
 			$table->index(['rotaid', 'staffid'], 'rotaid');
