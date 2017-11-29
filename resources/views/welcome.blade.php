@@ -1,95 +1,71 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layout.main')
+@section('content')
+	<h1 class="text-center">{{ trans('rota.rota_slot_staff') }}</h1>
+	<br>
+	<table class="table table-bordered main-table table-responsive shift-times">
+		<thead>
+			<tr>
+				<th>{{ trans('rota.day') }}</th>
+				<th class="visible-xs">{{ trans('rota.staff_id') }}</th>
+				<th class="hidden-xs">{{ trans('rota.staff_and_times') }}</th>
+				<th>{{ trans('rota.total_hours_worked') }}</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach($dayByStaff as $day => $staff)
+				<tr>
+					<th>
+						{{ intToDayOfWeek($day) }}
+					</th>
+					<td class="wrapper">
+						<table class="table inner-table">
+							<tr>
+								@foreach($staff as $member)
+									<td>{{ $member['staffid'] }}
+										<small class="hidden-xs">({{ $member['starttime'] }}
+											- {{ $member['endtime'] }})
+										</small>
+									</td>
+								@endforeach
+							</tr>
+						</table>
+					</td>
+					<td>
+						{{ $hoursByDay[$day]['totalHoursWorked'] }}
+					</td>
+				</tr>
 
-        <title>Laravel</title>
+			@endforeach
+		</tbody>
+	</table>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+	<div class="row">
+		<h1 class="text-center">Staff work by day in minutes</h1>
+		<br>
+		<div id="rota-staff-by-day"></div>
+	</div>
+@endsection
+@push('after-scripts')
+	<script>
+		$(document).ready(function() {
+			$.get('{{ route('api.rota.staff.by.day') }}', function(rotaStaff) {
+				$.each(rotaStaff, function(staffId, staff) {
+					var data = [];
 
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
-            }
+					appendStaffDivToWrapperDiv('#rota-staff-by-day', staffId);
 
-            .full-height {
-                height: 100vh;
-            }
+					$.each(staff, function(key, value) {
+						var workMinutes = floatHoursToMinutes(value.workhours);
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
+						data.push({
+							name : 'Day ' + value.daynumber,
+							y    : workMinutes,
+						});
+					});
 
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
-
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
-    </body>
-</html>
+					createStaffPieChart(staffId, data);
+				});
+			});
+		});
+	</script>
+@endpush
