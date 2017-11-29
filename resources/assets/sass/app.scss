@@ -1,9 +1,29 @@
-
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
 // Variables
 @import "variables";
-
 // Bootstrap
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
+.main-table {
+	tr {
+		td.wrapper {
+			padding : 0;
+
+			.inner-table {
+				margin : 0;
+				border : none !important;
+				tr {
+					td {
+						border-right : 1px solid #EEE;
+						border-top   : 0;
+
+						&:last-child {
+							border-right : 0;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+.staff-pie-chart { margin-bottom : 100px; }
