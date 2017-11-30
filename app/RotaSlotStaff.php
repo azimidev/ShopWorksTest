@@ -22,6 +22,16 @@ class RotaSlotStaff extends Model
 		'splitshifttimes',
 	];
 
+	public function scopeValid($query)
+	{
+		return $query->whereNotNull('staffid')->where('slottype', 'shift');
+	}
+
+	public function scopeShift($query)
+	{
+		return $query->select('starttime', 'endtime');
+	}
+
 	public static function weekdayShifts($weekday)
 	{
 		$query = self::valid()->shift();
@@ -86,15 +96,5 @@ class RotaSlotStaff extends Model
 	public function scopeSunday($query)
 	{
 		return $query->where('daynumber', 6);
-	}
-
-	public function scopeValid($query)
-	{
-		return $query->whereNotNull('staffid')->where('slottype', 'shift');
-	}
-
-	public function scopeShift($query)
-	{
-		return $query->select('starttime', 'endtime');
 	}
 }
