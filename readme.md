@@ -3,7 +3,7 @@
 1. Rename .env.example file  to .env and set `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`.
 2. Swicht to project directory.
 3. Run in your command line:  `composer install`
-4. Run:  `php artisan key:generate`
+4. Run: `php artisan key:generate`
 5. Run: `php artisan migrate`
 5. Run: `php artisan db:seed`
 6. Run: `npm install`
