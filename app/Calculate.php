@@ -67,16 +67,15 @@ class Calculate
 		$to_remove = [];
 
 		foreach ($aloneShifts as $i => &$aloneShift) {
-			// Flag to be used on "do while" loop
-			$continue = true;
 
 			// Create an array with from where these indexes came from
 			$indexes = explode(',', $aloneShift['indexes']);
 
+			// Flag to be used on "do while" loop
+			$continue = true;
 			// Repeat this until continue flag is set to false
 			// It means that time it's not valid at all, or it's really a "alone shift" (compared with all other shifts)
 			do {
-				// Initiate comparison with all shifts for the given day
 				foreach ($weekday_shifts as $j => $shift) {
 					// Do the validation just if this shift doesn't have the same index of one of those indexes inside alone shift variable
 					// It avoids camparions with itself
@@ -84,17 +83,8 @@ class Calculate
 						// Get start time in seconds
 						$start = $this->seconds($shift->starttime);
 
-						// Get end time in seconds
-						$end = $this->seconds($shift->endtime);
-
-						// If end comes before start then it means it's some time on the next day, so add 24h to it (86400 seconds)
-						if ($end < $start) {
-							$end += 86400;
-						}
-
 						// If both start time and end time (from alone shift) are inside a normal shift range, so it means it's not a valid alone shift
-						if ($aloneShift['start'] >= $start && $aloneShift['start'] <= $end && $aloneShift['end'] >= $start &&
-							$aloneShift['end'] <= $end) {
+						if ($aloneShift['start'] >= $start) {
 							// Mark it as invalid and finish its loop
 							$to_remove[] = $i;
 							$continue    = false;
@@ -102,13 +92,9 @@ class Calculate
 							// If part of it is overlapping, but another part not then "cut the edges", leave just the valid (alone) part of it
 							if (($aloneShift['start'] >= $start && $aloneShift['start'] <= $end) ||
 								($aloneShift['end'] >= $start && $aloneShift['end'] <= $end)) {
-								// If start time is inside the range, set new start as the end of this normal shift range
-								if ($aloneShift['start'] >= $start && $aloneShift['start'] <= $end) {
-									$aloneShift['start'] = $end;
-								}
 
 								// If end time is inside the range, set new end as the start of this normal shift range
-								if ($aloneShift['end'] >= $start && $aloneShift['end'] <= $end) {
+								if ($aloneShift['end'] >= $start) {
 									$aloneShift['end'] = $start;
 								}
 							} else {
