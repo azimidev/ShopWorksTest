@@ -1,4 +1,20 @@
-# ShopWorks Code Test
+# Installation
+
+1. Rename .env.example file  to .env and set DB_DATABASE, DB_USERNAME, DB_PASSWORD.
+2. Swicht to project directory.
+3. Run in your command line:  `composer install`
+4. Run:  `php artisan key:generate`
+5. Run: `php artisan migrate`
+5. Run: `php artisan db:seed`
+6. Run: `npm install`
+7. Run: `npm run dev`
+9. Run: `php artisan serve` and visit http://127.0.0.1:8000.
+
+> Calculation overlapping time from array is somethign I haven't done before and it takes a lot of thinking but in Calculate Class I managed to write some methods with deep algorithm to get the minutes alone with some comments explaining.
+
+# The Actual Task
+
+## ShopWorks Code Test
 ---
 We have staff rota shift data stored in the database as attached. We have included the data for one shop for one week. 
 *(If staff ID is 0 or null, the shift can be ignored or If shiftype is not “shift” then it can be ignored)*
