@@ -2,11 +2,24 @@
 
 namespace Tests\Feature;
 
+use App\Calculate;
 use App\RotaSlotStaff;
 use Tests\TestCase;
 
 class CalculatorTest extends TestCase
 {
+	protected $calculate;
+	protected $days;
+
+	public function setUp()
+	{
+		parent::setUp();
+		$this->calculate = new Calculate();
+		$this->days      = RotaSlotStaff::valid()->get()->groupBy(function ($column) {
+			return intToDayOfWeek($column->daynumber);
+		});
+	}
+
 	/** @test */
 	public function application_works()
 	{
@@ -16,11 +29,7 @@ class CalculatorTest extends TestCase
 	/** @test */
 	public function a_week_has_seven_days()
 	{
-		$days = RotaSlotStaff::valid()->get()->groupBy(function ($column) {
-			return intToDayOfWeek($column->daynumber);
-		});
-
-		$this->assertCount(7, $days->toArray());
+		$this->assertCount(7, $this->days->toArray());
 	}
 
 	/** @test */
@@ -46,5 +55,61 @@ class CalculatorTest extends TestCase
 
 		$sunday = intToDayOfWeek(6);
 		$this->assertEquals('Sunday', $sunday);
+	}
+
+	/** @test */
+	public function total_hours_for_monday()
+	{
+		$monday = $this->calculate->totalHoursByDay($this->days);
+
+		$this->assertEquals(37.92, $monday['Monday']['hours']);
+	}
+
+	/** @test */
+	public function total_hours_for_tuesday()
+	{
+		$tuesday = $this->calculate->totalHoursByDay($this->days);
+
+		$this->assertEquals(31, $tuesday['Tuesday']['hours']);
+	}
+
+	/** @test */
+	public function total_hours_for_wednesday()
+	{
+		$tuesday = $this->calculate->totalHoursByDay($this->days);
+
+		$this->assertEquals(46, $tuesday['Wednesday']['hours']);
+	}
+
+	/** @test */
+	public function total_hours_for_thursday()
+	{
+		$tuesday = $this->calculate->totalHoursByDay($this->days);
+
+		$this->assertEquals(41, $tuesday['Thursday']['hours']);
+	}
+
+	/** @test */
+	public function total_hours_for_friday()
+	{
+		$tuesday = $this->calculate->totalHoursByDay($this->days);
+
+		$this->assertEquals(54, $tuesday['Friday']['hours']);
+	}
+
+	/** @test */
+	public function total_hours_for_saturday()
+	{
+		$tuesday = $this->calculate->totalHoursByDay($this->days);
+
+		$this->assertEquals(57, $tuesday['Saturday']['hours']);
+	}
+
+	/** @test */
+	public function total_hours_for_sunday()
+	{
+		$tuesday = $this->calculate->totalHoursByDay($this->days);
+
+		$this->assertEquals(33.5, $tuesday['Sunday']['hours']);
 	}
 }
