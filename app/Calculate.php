@@ -75,7 +75,7 @@ class Calculate
 			do {
 				foreach ($weekday_shifts as $j => $shift) {
 					// Do the validation just if this shift doesn't have the same index of one of those indexes inside alone shift variable
-					// It avoids camparions with itself
+					// It avoids comparison with itself
 					if ( ! in_array($j, $indexes)) {
 						// Get start time in seconds
 						$start = $this->seconds($shift->starttime);
