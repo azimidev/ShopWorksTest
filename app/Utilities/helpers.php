@@ -1,27 +1,6 @@
 <?php
 
 /**
- * Create a new array by value $mappedTo with array items associated
- *
- * @param array $array
- * @param $mappedTo
- * @return array
- */
-function mapByValueToArrayItem(array $array, $mappedTo)
-{
-	$mappedArray = [];
-	foreach ($array as $item) {
-		if (array_key_exists($item[$mappedTo], $mappedArray)) {
-			$mappedArray[$item[$mappedTo]][] = $item;
-		} else {
-			$mappedArray[$item[$mappedTo]] = [$item];
-		}
-	}
-
-	return $mappedArray;
-}
-
-/**
  * Transforms an integer to day of week
  *
  * @param $number
@@ -57,7 +36,7 @@ function intToDayOfWeek($number)
 			throw new RuntimeException('Number ' . $number . ' is not associated with a day of week');
 	}
 
-	return trans('rota.day_of_week.' . $dayOfWeek);
+	return title_case($dayOfWeek);
 }
 
 /**

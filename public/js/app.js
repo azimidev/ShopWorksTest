@@ -825,7 +825,6 @@ window._ = __webpack_require__(10);
 
 try {
     window.$ = window.jQuery = __webpack_require__(13);
-
     __webpack_require__(14);
 } catch (e) {}
 
