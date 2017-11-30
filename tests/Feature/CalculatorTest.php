@@ -14,6 +14,7 @@ class CalculatorTest extends TestCase
 	public function setUp()
 	{
 		parent::setUp();
+
 		$this->calculate = new Calculate();
 		$this->days      = RotaSlotStaff::valid()->get()->groupBy(function ($column) {
 			return intToDayOfWeek($column->daynumber);
@@ -111,5 +112,61 @@ class CalculatorTest extends TestCase
 		$tuesday = $this->calculate->totalHoursByDay($this->days);
 
 		$this->assertEquals(33.5, $tuesday['Sunday']['hours']);
+	}
+
+	/** @test */
+	public function minutes_alone_for_monday()
+	{
+		$monday = $this->calculate->allweeksAloneTime()['monday'];
+
+		$this->assertEquals(5, $monday);
+	}
+
+	/** @test */
+	public function minutes_alone_for_tuesday()
+	{
+		$tuesday = $this->calculate->allweeksAloneTime()['tuesday'];
+
+		$this->assertEquals(120, $tuesday);
+	}
+
+	/** @test */
+	public function minutes_alone_for_wednesday()
+	{
+		$wednesday = $this->calculate->allweeksAloneTime()['wednesday'];
+
+		$this->assertEmpty( $wednesday);
+	}
+
+	/** @test */
+	public function minutes_alone_for_thursday()
+	{
+		$thursday = $this->calculate->allweeksAloneTime()['thursday'];
+
+		$this->assertEmpty( $thursday);
+	}
+
+	/** @test */
+	public function minutes_alone_for_friday()
+	{
+		$friday = $this->calculate->allweeksAloneTime()['friday'];
+
+		$this->assertEquals(60, $friday);
+	}
+
+	/** @test */
+	public function minutes_alone_for_saturday()
+	{
+		$saturday = $this->calculate->allweeksAloneTime()['saturday'];
+
+		$this->assertEmpty( $saturday);
+	}
+
+	/** @test */
+	public function minutes_alone_for_sunday()
+	{
+		$sunday = $this->calculate->allweeksAloneTime()['sunday'];
+
+		$this->assertEquals(60, $sunday);
 	}
 }
