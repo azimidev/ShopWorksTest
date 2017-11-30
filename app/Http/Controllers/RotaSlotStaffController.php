@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Calculate;
 use App\RotaSlotStaff;
 
 class RotaSlotStaffController extends Controller
 {
-	public function index()
+	public function index(Calculate $calculate)
 	{
 		$days = RotaSlotStaff::whereNotNull('staffid')
 		                     ->where('slottype', 'shift')
@@ -16,10 +17,21 @@ class RotaSlotStaffController extends Controller
 		                     });
 
 		$total = $this->countTotalHoursByDay($days);
+		$week  = $calculate->allweeksAloneTime();
 
-		return view('welcome', compact('days', 'total'));
+		return view('welcome', [
+			'days'  => $days,
+			'total' => $total,
+			'week'  => $week,
+		]);
 	}
 
+	/**
+	 * Get the total hours for everyday
+	 *
+	 * @param $days
+	 * @return array
+	 */
 	private function countTotalHoursByDay($days)
 	{
 		$hoursByDay = [];
