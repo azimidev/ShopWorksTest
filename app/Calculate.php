@@ -52,9 +52,6 @@ class Calculate
 				$other_start = $this->seconds($other_shift->starttime);
 				$other_end   = $this->seconds($other_shift->endtime);
 
-				if ($other_end < $other_start) {
-					$other_end += 86400;
-				}
 				// Now send both ranges to another function who's going to return which parts of them are not overlapping
 				$tempAloneShifts = $this->notOverlapped($start, $end, $other_start, $other_end, $i, $j);
 
@@ -112,14 +109,9 @@ class Calculate
 		}
 
 		foreach ($aloneShifts as $i => $iValue) {
-			$aloneShifts[$i]['minutes'] = ($aloneShifts[$i]['end'] - $aloneShifts[$i]['start']) / 60;
 			foreach ($aloneShifts as $j => $jValue) {
 				if ($i != $j) {
-					if (array_key_exists($i, $aloneShifts) && array_key_exists($j, $aloneShifts) &&
-						$aloneShifts[$i]['start'] == $aloneShifts[$j]['start'] &&
-						$aloneShifts[$i]['end'] == $aloneShifts[$j]['end']) {
-						unset($aloneShifts[$i]);
-					}
+					unset($aloneShifts[$i]);
 				}
 			}
 		}
