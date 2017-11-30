@@ -18,7 +18,6 @@
 We have staff rota shift data stored in the database as attached. We have included the data for one shop for one week. 
 *(If staff ID is 0 or null, the shift can be ignored or If shiftype is not “shift” then it can be ignored)*
 
----
 ## You should:
 > Use laravel. Use JS or PHP as much as you prefer, but use clean code and good front end presentation to show us the ability of your code.
 Please ensure your code is easily readable.
