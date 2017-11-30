@@ -26,9 +26,9 @@ class Calculate
 	}
 
 	/**
-	 * Gets the alone shifts. Blame this one for the time it took for this system to be ready.
+	 * Gets the alone shifts.
 	 *
-	 * @param      <type>  $weekday_shifts  The weekday shifts
+	 * @param $weekday_shifts
 	 * @return float
 	 */
 	public function aloneShifts($weekday_shifts)
@@ -125,9 +125,6 @@ class Calculate
 			unset($aloneShifts[$value]);
 		}
 
-		// Reindex array keys
-		$aloneShifts = array_values($aloneShifts);
-
 		foreach ($aloneShifts as $i => $iValue) {
 			$aloneShifts[$i]['minutes'] = ($aloneShifts[$i]['end'] - $aloneShifts[$i]['start']) / 60;
 			foreach ($aloneShifts as $j => $jValue) {
@@ -177,40 +174,9 @@ class Calculate
 				if ($new_start != $new_end) {
 					$times[] = ['start' => $new_start, 'end' => $new_end, 'indexes' => $index_1 . ',' . $index_2];
 				}
-			} else if ($other_start >= $start && $other_start <= $end) {
-				// Set new start and end, excluding the overlapped part
-				$new_start = $start;
-				$new_end   = $other_start;
-
-				// If new start and new end are the same, it means were not really overlapping, they were just adjacent and we shouldn't count them
-				if ($new_start != $new_end) {
-					$times[] = ['start' => $new_start, 'end' => $new_end, 'indexes' => $index_1 . ',' . $index_2];
-				}
-			}
-
-			if ($end >= $other_start && $end <= $other_end) {
-				// Set new start and end, excluding the overlapped part
-				$new_start = $end;
-				$new_end   = $other_end;
-
-				// If new start and new end are the same, it means were not really overlapping, they were just adjacent and we shouldn't count them
-				if ($new_start != $new_end) {
-					$times[] = ['start' => $new_start, 'end' => $new_end, 'indexes' => $index_1 . ',' . $index_2];
-				}
-			} else if ($other_end >= $start && $other_end <= $end) {
-				// Set new start and end, excluding the overlapped part
-				$new_start = $other_end;
-				$new_end   = $end;
-
-				// If new start and new end are the same, it means were not really overlapping, they were just adjacent and we shouldn't count them (4th ctrl+v in a row :S sorry)
-				if ($new_start != $new_end) {
-					$times[] = ['start' => $new_start, 'end' => $new_end, 'indexes' => $index_1 . ',' . $index_2];
-				}
 			}
 		}
 
-		// Return a first view of non overlapped times for those 2 ranges given
-		// Return a empty array in case of no non overlapped times at all
 		return $times;
 	}
 
