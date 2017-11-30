@@ -157,23 +157,11 @@ class Calculate
 	{
 		$times = [];
 
-		// If the 1st range of time given is not overlapping the 2nd one given then insert both on times array
-		if ( ! ($start >= $other_start && $start <= $other_end) && ! ($end >= $other_start && $end <= $other_end)) {
-			// Times array will store times with start time (in seconds), end time (also in seconds) and both indexes from where they came from
-			// Those indexes will be used in the future to avoid comparisons with itself
-			$times[] = ['start' => $start, 'end' => $end, 'indexes' => $index_1 . ',' . $index_2];
-			$times[] = ['start' => $other_start, 'end' => $other_end, 'indexes' => $index_1 . ',' . $index_2];
-		} else {
-			// If 1st time range start is somewhere between 2nd time range
-			if ($start >= $other_start && $start <= $other_end) {
-				// Set new start and end, excluding the overlapped part
-				$new_start = $other_start;
-				$new_end   = $start;
-
-				// If new start and new end are the same, it means were not really overlapping, they were just adjacent and we shouldn't count them
-				if ($new_start != $new_end) {
-					$times[] = ['start' => $new_start, 'end' => $new_end, 'indexes' => $index_1 . ',' . $index_2];
-				}
+		if ($start >= $other_start && $start <= $other_end) {
+			// Set new start and end, excluding the overlapped part
+			// If new start and new end are the same, it means were not really overlapping, they were just adjacent and we shouldn't count them
+			if ($other_start != $start) {
+				$times[] = ['start' => $other_start, 'end' => $start, 'indexes' => $index_1 . ',' . $index_2];
 			}
 		}
 
