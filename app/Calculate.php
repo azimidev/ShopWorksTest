@@ -5,6 +5,27 @@ namespace App;
 class Calculate
 {
 	/**
+	 * Get the total hours for everyday
+	 *
+	 * @param $days
+	 * @return array
+	 */
+	public function totalHoursByDay($days)
+	{
+		$hoursByDay = [];
+		foreach ($days as $day => $staff) {
+			$totalHoursWorked = 0;
+			foreach ($staff as $item) {
+				$totalHoursWorked += $item['workhours'];
+			}
+
+			$hoursByDay[$day]['hours'] = $totalHoursWorked;
+		}
+
+		return $hoursByDay;
+	}
+
+	/**
 	 * Gets the alone shifts. Blame this one for the time it took for this system to be ready.
 	 *
 	 * @param      <type>  $weekday_shifts  The weekday shifts
