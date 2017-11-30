@@ -15,7 +15,6 @@
 # The Actual Task
 
 ## ShopWorks Code Test
----
 We have staff rota shift data stored in the database as attached. We have included the data for one shop for one week. 
 *(If staff ID is 0 or null, the shift can be ignored or If shiftype is not “shift” then it can be ignored)*
 
