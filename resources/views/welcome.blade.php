@@ -52,31 +52,31 @@
 				<tr>
 					<td class="text-center text-middle">
 						Alone Minutes:
-						<span class="badge">{{ $week['monday'] }}</span>
+						<span class="badge">{{ $alone['monday'] }}</span>
 					</td>
 					<td class="text-center text-middle">
 						Alone Minutes:
-						<span class="badge">{{ $week['tuesday'] }}</span>
+						<span class="badge">{{ $alone['tuesday'] }}</span>
 					</td>
 					<td class="text-center text-middle">
 						Alone Minutes:
-						<span class="badge">{{ $week['wednesday'] }}</span>
+						<span class="badge">{{ $alone['wednesday'] }}</span>
 					</td>
 					<td class="text-center text-middle">
 						Alone Minutes:
-						<span class="badge">{{ $week['thursday'] }}</span>
+						<span class="badge">{{ $alone['thursday'] }}</span>
 					</td>
 					<td class="text-center text-middle">
 						Alone Minutes:
-						<span class="badge">{{ $week['friday'] }}</span>
+						<span class="badge">{{ $alone['friday'] }}</span>
 					</td>
 					<td class="text-center text-middle">
 						Alone Minutes:
-						<span class="badge">{{ $week['saturday'] }}</span>
+						<span class="badge">{{ $alone['saturday'] }}</span>
 					</td>
 					<td class="text-center text-middle">
 						Alone Minutes:
-						<span class="badge">{{ $week['sunday'] }}
+						<span class="badge">{{ $alone['sunday'] }}
 					</td>
 				</tr>
 			</tbody>

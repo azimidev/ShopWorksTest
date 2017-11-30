@@ -17,13 +17,9 @@ class RotaSlotStaffController extends Controller
 		                     });
 
 		$total = $this->countTotalHoursByDay($days);
-		$week  = $calculate->allweeksAloneTime();
+		$alone  = $calculate->allweeksAloneTime();
 
-		return view('welcome', [
-			'days'  => $days,
-			'total' => $total,
-			'week'  => $week,
-		]);
+		return view('welcome', compact('days', 'total', 'alone'));
 	}
 
 	/**
